@@ -1,9 +1,9 @@
 # BotPescaAlbion
- en: Albion online fishing bot
- pt: Albion online bot para pesca
+ Albion online fishing bot
+ Albion online bot para pesca
  
- en: Run pescaautomatica.py 
- pt: Execute pescaautomatica.py
+ Run pescaautomatica.py 
+ Execute pescaautomatica.py
  
  
  # Copyright (c) 2022 Chberta

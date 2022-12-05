@@ -1,8 +1,10 @@
 # BotPescaAlbion
  Albion online fishing bot
+ 
  Albion online bot para pesca
  
  Run pescaautomatica.py 
+ 
  Execute pescaautomatica.py
  
  

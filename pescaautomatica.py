@@ -11,17 +11,17 @@ import time
 print('Iniciando')
 time.sleep(2)
 
-print('Posicione o MOUSE')
+print('Posicione o MOUSE Posição 1')
 time.sleep(2)
 xx, yy = pg.position()
-print('Posicione o MOUSE 1')
+print('Posicione o MOUSE Posição 2')
 time.sleep(2)
 xx1, yy1 = pg.position()
-print('Posicione o MOUSE 2')
+print('Posicione o MOUSE Posição 3')
 time.sleep(2)
 xx2, yy2 = pg.position()
 
-print('Posicione o MOUSE Marca')
+print('Posicione o MOUSE Ponto Referencia')
 time.sleep(2)
 xx3, yy3 = pg.position()
 
@@ -34,7 +34,7 @@ xPop1 = float()
 xPop = 0
 xMEDx = 0
 xQuantx = 1
-meanvalue = 8.5
+mediaArray = 0
 xtotalx = 0
 xtotalPesca= 0
 xmen = 0
@@ -59,20 +59,18 @@ while True:
 			
 	x = random.randint(x-10,x+10)
 	y = random.randint(y-10,y+10)
-	#pg.rightClick(x,y)
-
-
-	poplavokplace = ImageGrab.grab((x-200,y-200,x+200,y+200)) #Takes a screenshot of the box where the float is 
-	poplavokplace.save('xii.png', 'BMP')
-	poplavok_place_image_original = cv2.imread('xii.png')
-	poplavok_place_array = np.array(poplavok_place_image_original)
-	poplavok_canny = cv2.Canny(poplavok_place_array,90, 200)
-	cv2.imwrite('aguaa.png', poplavok_canny)
-	xmeanvalue = np.mean(poplavok_canny) + 1.1
-	xPop1 = np.mean(poplavok_canny)
+	
+	PrintImage = ImageGrab.grab((x-200,y-200,x+200,y+200))
+	PrintImage.save('xii.png', 'BMP')
+	PrintImageArray = cv2.imread('xii.png')
+	PrintImageArrayG = np.array(PrintImageArray)
+	PrinImageCalcula = cv2.Canny(PrintImageArrayG,90, 200)
+	cv2.imwrite('aguaa.png', PrinImageCalcula)
+	xmediaArray = np.mean(PrinImageCalcula) + 1.1
+	xPop1 = np.mean(PrinImageCalcula)
 
 	time.sleep(3.5)
-	pg.moveTo(x , y)  #pg.moveTo(x , y, duration = 0.5) 
+	pg.moveTo(x , y) 
 	pg.mouseDown()
 	xtt = random.randint(2, 4)
 	time.sleep(xtt / 10)
@@ -83,48 +81,43 @@ while True:
 
 	while arrayEND == False:
 
-		poplavokplace = ImageGrab.grab((x-200,y-200,x+200,y+200))
+		PrintdaImagem = ImageGrab.grab((x-200,y-200,x+200,y+200))
 
 		if (xQuantx%2) == 0:
-			poplavokplace.save('xi.png', 'BMP')
-			poplavok_place_image_original = cv2.imread('xi.png')
+			PrintdaImagem.save('xi.png', 'BMP')
+			PrintImageArrayOriginal = cv2.imread('xi.png')
 		else:
-			poplavokplace.save('xip.png', 'BMP')
-			poplavok_place_image_original = cv2.imread('xip.png')
+			PrintdaImagem.save('xip.png', 'BMP')
+			PrintImageArrayOriginal = cv2.imread('xip.png')
 
-		#poplavok_place_image_original = cv2.imread('xi.png')
-		poplavok_place_array = np.array(poplavok_place_image_original)
-		poplavok_canny = cv2.Canny(poplavok_place_array,90, 200)
-		cv2.imwrite('agua.png', poplavok_canny)
-		poplavok_place_array_mean = np.mean(poplavok_canny)
+		
+		PrintImageArrayG = np.array(PrintImageArrayOriginal)
+		PrintImageAnalisa = cv2.Canny(PrintImageArrayG,90, 200)
+		cv2.imwrite('agua.png', PrintImageAnalisa)
+		PrintImage = np.mean(PrintImageAnalisa)
 		
 
 		if xPop == 0:
-			xPop = xPop1 + np.mean(poplavok_canny)
+			xPop = xPop1 + np.mean(PrintImageAnalisa)
 		else:
-			xPop = xPop + np.mean(poplavok_canny)
+			xPop = xPop + np.mean(PrintImageAnalisa)
 
-		#print('Xpop= '+ str(xPop/xQuantx))
-		 	
 		xQuantx = xQuantx + 1
 		
 		
-		meanvalue = (xPop / xQuantx) + 0.6
-		print('Ponto Referencia parada= '+ str(meanvalue))
-		print('Pontos Imagem = '+ str(poplavok_place_array_mean))
-		#print('xQuantx = '+ str(xQuantx))
-		#print('------------------')
+		mediaArray = (xPop / xQuantx) + 0.6
+		print('Ponto Referencia parada= '+ str(mediaArray))
+		print('Pontos Imagem = '+ str(PrintImage))
 		time.sleep(0.3)
 
 
-		if poplavok_place_array_mean == 0:
-			print('mean == 0, ending the program')
+		if PrintImage == 0:
+			print('Terminando Jogo')
 			xPop = 0
 			xQuantx = 1
 			break
 			
-		if poplavok_place_array_mean >= float(meanvalue) and poplavok_place_array_mean != 0:
-			#time.sleep(2)
+		if PrintImage >= float(mediaArray) and PrintImage != 0:
 			time.sleep(0.1)
 			pg.click(clicks = 2)
 			arrayEND = True
@@ -145,7 +138,7 @@ while True:
 	while arrayEND == True:
 		time.sleep(0.3)
 		catch = False
-		window = ImageGrab.grab((837,532,1078,567)) #This is where the minigame will appear (FullHD)
+		window = ImageGrab.grab((837,532,1078,567))
 
 		locate = pg.locate('Boia.png',window, confidence = 0.5)
 		if locate == None:
@@ -163,9 +156,9 @@ while True:
 				print('Fisgou Puxe x = '+ str(x) + '  Força')
 				if 71 < int(x) < 170:
 					pg.mouseDown()
-					time.sleep(1.3)#1
+					time.sleep(1.3)
 					pg.mouseUp()
-					#time.sleep(0.1)
+					
 				if int(x) < 70:
 					pg.mouseDown()
 					time.sleep(2.5)	
@@ -186,10 +179,9 @@ while True:
 					pg.rightClick(1594,557)		
 					xtotalPesca = 0
 
-				#time.sleep(10)
 				time.sleep(random.randint(10, 20))
 
 pass
 
-# Copyright (c) 2020 Unbewohnte
+# Copyright (c) 2022 Chberta
 
